@@ -1,4 +1,5 @@
 // get necessary packages
+const fs = require('node:fs');
 const { Client, Intents } = require('discord.js');
 const { token, prefix } = require('./config.json');
 
@@ -12,29 +13,17 @@ bot.once('ready', () => {
     console.log(`Bot logged in successfully`);
 });
 
-// prefix command 
-bot.on('messageCreate', async msg => {
-    if(msg.author.bot) return; // ignore bot
-    if(msg.content.startsWith(PREFIX)){
-        
-    }
-});
+// command collection
+bot.commands = new Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-// slash command    
-bot.on('interactionCreate', async interaction => {
-    console.log('im here');
-    if (!interaction.isCommand()) return;
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
 
-    const { commandName } = interaction;
-
-    if (commandName === 'ping') {
-        await interaction.reply('Pong!');
-    } else if (commandName === 'server') {
-        await interaction.reply({ content : 'server info', ephemeral : true });
-    } else if (commandName === 'user') {
-        await interaction.reply({ content : 'user info', ephemeral : true });
-    }
-});
+    // set a new item in the Collection
+	// with the key as the command name and the value as the exported module
+    bot.commands.set(command.data.name, command);
+}
 
 // login to discord with bot's token
 bot.login(TOKEN);
