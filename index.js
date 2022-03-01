@@ -13,6 +13,11 @@ bot.once('ready', () => {
     console.log(`Bot logged in successfully`);
 });
 
+// event notifs
+bot.on('interactionCreate', interaction => {
+	console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
+});
+
 // commands collection
 bot.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
