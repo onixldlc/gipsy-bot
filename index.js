@@ -8,11 +8,6 @@ const bot = new Client({ intents :
     [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
 });
 
-// when client is ready, run this code (only once)
-bot.once('ready', () => {
-    console.log(`Bot logged in successfully`);
-});
-
 // event notifs
 bot.on('interactionCreate', interaction => {
 	console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
