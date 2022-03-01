@@ -8,10 +8,17 @@ const bot = new Client({ intents :
     [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
 });
 
-// when client is ready, run this code (only once)
-bot.once('ready', () => {
-    console.log(`Bot logged in successfully`);
-});
+// read event and event files
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event.once) {
+		bot.once(event.name, (...args) => event.execute(...args));
+	} else {
+		bot.on(event.name, (...args) => event.execute(...args));
+	}
+}
 
 // commands collection
 bot.commands = new Collection();
