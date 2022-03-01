@@ -8,11 +8,6 @@ const bot = new Client({ intents :
     [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
 });
 
-// event notifs
-bot.on('interactionCreate', interaction => {
-	console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an interaction.`);
-});
-
 // commands collection
 bot.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
