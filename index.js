@@ -1,6 +1,7 @@
 // get necessary packages
-const { Client, Intents } = require('discord.js');
-const { token, prefix } = require('./config.json');
+const fs = require('node:fs');
+const { Client, Collection, Intents } = require('discord.js');
+const { TOKEN, PREFIX } = require('./config.json');
 
 // create client instance
 const bot = new Client({ intents : 
@@ -12,28 +13,33 @@ bot.once('ready', () => {
     console.log(`Bot logged in successfully`);
 });
 
-// prefix command 
-bot.on('messageCreate', async msg => {
-    if(msg.author.bot) return; // ignore bot
-    if(msg.content.startsWith(PREFIX)){
-        
-    }
-});
+// commands collection
+bot.commands = new Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-// slash command    
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+
+    // set a new item in the Collection
+	// with the key as the command name and the value as the exported module
+    bot.commands.set(command.data.name, command);
+}
+
+//dynamic command execution
 bot.on('interactionCreate', async interaction => {
-    console.log('im here');
-    if (!interaction.isCommand()) return;
+	if (!interaction.isCommand()) return;
 
-    const { commandName } = interaction;
+	const command = bot.commands.get(interaction.commandName);
 
-    if (commandName === 'ping') {
-        await interaction.reply('Pong!');
-    } else if (commandName === 'server') {
-        await interaction.reply({ content : 'server info', ephemeral : true });
-    } else if (commandName === 'user') {
-        await interaction.reply({ content : 'user info', ephemeral : true });
-    }
+    // ignore if command doesnt exist
+	if (!command) return;
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
 });
 
 // login to discord with bot's token
