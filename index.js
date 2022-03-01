@@ -1,7 +1,7 @@
 // get necessary packages
 const fs = require('node:fs');
-const { Client, Intents } = require('discord.js');
-const { token, prefix } = require('./config.json');
+const { Client, Collection, Intents } = require('discord.js');
+const { TOKEN, PREFIX } = require('./config.json');
 
 // create client instance
 const bot = new Client({ intents : 
@@ -26,10 +26,10 @@ for (const file of commandFiles) {
 }
 
 //dynamic command execution
-client.on('interactionCreate', async interaction => {
+bot.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
-	const command = client.commands.get(interaction.commandName);
+	const command = bot.commands.get(interaction.commandName);
 
     // ignore if command doesnt exist
 	if (!command) return;
