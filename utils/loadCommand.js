@@ -3,8 +3,8 @@ module.exports={
 	"hotLoadCommands":(bot)=>{
 		const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 		for (const file of commandFiles) {
+			delete require.cache[require.resolve(`../commands/${file}`)];
 			const command = require(`../commands/${file}`);
-			console.log(`Attempting to load command ${command.name}`)
 			bot.commands.set(command.name, command);
 		}
 	},
