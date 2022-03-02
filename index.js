@@ -54,6 +54,12 @@ bot.on('messageCreate', async msg =>{
     if (msg.author.bot) return;
 	if (!msg.content.startsWith(PREFIX)) return;
 
+		// for multiline command
+	// queueCommand = msg.content.split('\n');
+	// for (cmd in queueCommand){
+	// 	msg.reply(queueCommand[cmd]);
+	// }
+
 	const args = msg.content.slice(PREFIX.length).trim().split(' ');
 	const commandName = args.shift().toLowerCase();
 	const command = bot.commands.get(commandName);
