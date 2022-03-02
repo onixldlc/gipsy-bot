@@ -16,11 +16,9 @@ const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
-		if (event.once) {
-			bot.once(event.name, (...args) => event.execute(...args));
-		} else {
-			bot.on(event.name, event.execute);
-		}
+		bot.once(event.name, (ret)=>event.execute(bot, ret) );
+	} else {
+		bot.on(event.name, (ret)=>event.execute(bot, ret) );
 	}
 }
 
