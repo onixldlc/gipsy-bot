@@ -17,9 +17,9 @@ module.exports={
 		for (const file of eventFiles) {
 			const event = require(`../events/${file}`);
 			if (event.once) {
-				bot.once(event.name, (ret)=>event.execute(bot, ret) );
+				bot.once(event.name, (...args) => event.execute(bot, ...args));
 			} else {
-				bot.on(event.name, (ret)=>event.execute(bot, ret) );
+				bot.on(event.name, (...args) => event.execute(bot, ...args));
 			}
 		}
 	}
