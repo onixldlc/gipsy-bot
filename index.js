@@ -29,7 +29,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
 
-    console.log(`Attempting to load command ${commandName}`)
+    console.log(`Attempting to load command ${command.name}`)
     bot.commands.set(command.name, command);
 }
 
