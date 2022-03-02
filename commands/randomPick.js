@@ -6,11 +6,11 @@ module.exports = {
 		nItem = args.length;
 
 		if(nItem == 0){
-			message.reply("there is no item you dumdum");
+			message.channel.send("there is no item you dumdum");
 			return;
 		}
 
 		radInt = Math.floor(Math.random() * nItem);
-		message.reply(args[radInt]);
+		message.channel.send(args[radInt]);
 	}
 };
