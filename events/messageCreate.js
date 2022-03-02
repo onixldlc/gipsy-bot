@@ -4,6 +4,7 @@ module.exports = {
         // Ignore all bots
         //if (message.author.bot) return;
         console.log("im here");
+		// console.log(bot ,message)
         
             // for multiline command
         // queueCommand = message.content.split('\n');
@@ -12,11 +13,18 @@ module.exports = {
         // }
 
         // Ignore messages not starting with the prefix (in config.json)
-        if (!message.content.startsWith(bot.config.prefix)) return;
+		// console.log(message.content)
+		// console.log(message.content[0],message.content[1])
+		// console.log(message.content.startsWith("["))
+		// console.log(bot.config.prefix)
+		
+        if (!message.content.startsWith(bot.config.PREFIX)) return;
 
         // Our standard argument/command name definition.
-        const args = message.content.slice(bot.config.prefix.length).trim().split(/ +/g);
+        const args = message.content.slice(" ").trim().split(/ +/g);
         const commandName = args.shift().toLowerCase();
+
+		console.log(commandName, args)
 
         // Grab the command data from the client.commands Enmap
         const cmd = bot.commands.get(commandName);
