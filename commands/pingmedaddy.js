@@ -1,6 +1,6 @@
 module.exports = {
-	name: 'ping!',
-	description: 'replies with "pong!"',
+	name: 'pingmedaddy',
+	description: 'confirm ownership',
 	ownerOnly: true,
     hidden: true,
 	
