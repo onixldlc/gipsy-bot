@@ -1,0 +1,10 @@
+module.exports = {
+	name: 'command name',
+	description: 'command desc',
+	ownerOnly: true,
+    hidden: true,
+	
+	run: (bot, message, args) => {
+		// command logic
+	}
+};
