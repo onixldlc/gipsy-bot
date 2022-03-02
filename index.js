@@ -1,53 +1,35 @@
 // get necessary packages
 const fs = require('node:fs');
-const { Client, Collection, Intents } = require('discord.js');
-const { TOKEN, PREFIX } = require('./config.json');
+const { Client, Collection, Intents, Message, BitField } = require('discord.js');
+const config = require('./config.json')
 
 // create client instance
 const bot = new Client({ intents : 
     [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
 });
 
-// read event and event files
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+bot.config = config;
+bot.commands = new Collection();
 
+// reacts on event
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
-		bot.once(event.name, (...args) => event.execute(...args));
+		bot.once(event.name, (...args) => event.execute(bot, ...args));
 	} else {
-		bot.on(event.name, (...args) => event.execute(...args));
+		bot.on(event.name, (...args) => event.execute(bot, ...args));
 	}
 }
 
-// commands collection
-bot.commands = new Collection();
+// loads command
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
 
-    // set a new item in the Collection
-	// with the key as the command name and the value as the exported module
-    bot.commands.set(command.data.name, command);
+    console.log(`Attempting to load command ${command.name}`)
+    bot.commands.set(command.name, command);
 }
 
-//dynamic command execution
-bot.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
-
-	const command = bot.commands.get(interaction.commandName);
-
-    // ignore if command doesnt exist
-	if (!command) return;
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-	}
-});
-
 // login to discord with bot's token
-bot.login(TOKEN);
+bot.login(config.TOKEN);
