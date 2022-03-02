@@ -52,8 +52,22 @@ bot.on('interactionCreate', async interaction => {
 //dynamic prefix command execution 
 bot.on('messageCreate', async msg =>{
     if (msg.author.bot) return;
+	if (!msg.content.startsWith(PREFIX)) return;
 
-    // continue developing pls
+	const args = msg.content.slice(PREFIX.length).trim().split(' ');
+	const commandName = args.shift().toLowerCase();
+	const command = bot.commands.get(commandName);
+	
+	if(!command){
+		msg.reply(`"${commandName}" is not a command`);
+		return;
+	};
+
+	try {
+		command.execute(msg, args);
+	} catch (error) {
+		console.error(error);
+	}
 });
 
 
