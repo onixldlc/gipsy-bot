@@ -14,8 +14,7 @@ repository for my in-progress experimental gipsy-bot
 
 - [x] add event modularity
 - [ ] add events
-  - [ ] onMessage
-  - [x] interactionCreate
+  - [ ] messageCreate
   - [x] ready
   - [ ] ...
   
