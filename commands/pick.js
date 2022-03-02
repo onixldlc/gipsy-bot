@@ -1,12 +1,12 @@
 module.exports = {
-	name: 'randompick',
-	description: 'to pick random element from suggested array',
+	name: 'pick',
+	description: 'randomly picks an element from items',
 	
 	run: (bot, message, args) => {
 		nItem = args.length;
 
 		if(nItem == 0){
-			message.channel.send("there is no item you dumdum");
+			message.channel.send("There's no item you dumdum");
 			return;
 		}
 
