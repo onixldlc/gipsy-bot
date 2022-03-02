@@ -1,8 +1,10 @@
 module.exports = {
 	name: 'ping!',
 	description: 'replies with "pong!"',
+	ownerOnly: true,
+    hidden: true,
 	
 	run: (bot, message, args) => {
-		message.reply('pong!');
+		message.reply('Hello owner ( ͡° ͜ʖ ͡°)');
 	}
 };

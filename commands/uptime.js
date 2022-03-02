@@ -1,6 +1,8 @@
 module.exports = {
 	name: 'uptime',
 	description: 'prints bot\'s uptime in readable format',
+    ownerOnly: false,
+    hidden: false,
 	
 	run: (bot, message, args) => {
 		const totalSeconds = (bot.uptime / 1000);

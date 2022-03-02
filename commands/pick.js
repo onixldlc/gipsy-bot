@@ -1,6 +1,8 @@
 module.exports = {
 	name: 'pick',
 	description: 'randomly picks an element from items',
+	ownerOnly: false,
+    hidden: false,
 	
 	run: (bot, message, args) => {
 		nItem = args.length;

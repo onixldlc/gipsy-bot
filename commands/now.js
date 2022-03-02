@@ -1,7 +1,9 @@
 module.exports = {
 	name: 'now',
 	description: 'prints current date with user region format',
-	
+	ownerOnly: false,
+    hidden: false,
+
 	run: (bot, message, args) => {
 		const now = new Date();
         const date = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
