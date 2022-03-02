@@ -1,6 +1,6 @@
 module.exports = {
     name: 'messageCreate',
-    execute(bot, message) {
+    execute (bot, message) {
         // Ignore all bots
         if (message.author.bot) return;
         
