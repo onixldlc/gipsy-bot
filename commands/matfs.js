@@ -1,4 +1,4 @@
-const { simplify, parse, derivative } = require('mathjs')
+const { evaluate } = require('mathjs')
 
 module.exports = {
 	name: 'mathfs',
@@ -6,6 +6,6 @@ module.exports = {
 	hidden: false,
 	checkOwner: false,
 	run: (bot, message, args) => {
-		message
+		message.channel.send(`${evaluate(args.join(""))}`)
 	}
 };
