@@ -11,7 +11,7 @@ repository for my in-progress experimental gipsy-bot
   - [ ] basic: uptime
   - [ ] inter: debug
   - [ ] inter: sysinfo
-  - [ ] advan: hotReload (hot reload all command so no need to restart server)
+  - [x] advan: hotReload (hot reload all command so no need to restart server)
 
 - [x] add event modularity
 - [ ] add events
