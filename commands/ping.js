@@ -4,6 +4,6 @@ module.exports = {
 	hidden: false,
 	checkOwner: false,
 	run: (bot, message, args) => {
-		message.reply('pong!2');
+		message.reply('pong!');
 	}
 };
