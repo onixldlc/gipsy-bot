@@ -14,7 +14,7 @@ repository for my in-progress experimental gipsy-bot
 
 - [x] add event modularity
 - [ ] add events
-  - [ ] messageCreate
+  - [x] messageCreate
   - [x] ready
   - [ ] ...
   
