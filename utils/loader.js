@@ -12,7 +12,7 @@ module.exports={
 	},
 
     // set event to require its respective file
-    hotLoadEvent (bot) {
+    hotLoadEvents (bot) {
 		const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 		for (const file of eventFiles) {
 			const event = require(`../events/${file}`);

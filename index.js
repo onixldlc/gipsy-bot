@@ -1,7 +1,7 @@
 // get necessary packages
 const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { hotLoadCommands, hotLoadEvent } = require('./utils/loader.js')
+const { hotLoadCommands, hotLoadEvents } = require('./utils/loader.js')
 const config = require('./config.json')
 
 // create client instance
@@ -13,7 +13,7 @@ bot.config = config;
 bot.commands = new Collection();
 
 // reacts on event
-hotLoadEvent(bot);
+hotLoadEvents(bot);
 
 // loads command
 hotLoadCommands(bot);
