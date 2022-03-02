@@ -9,24 +9,28 @@ const bot = new Client({ intents :
 });
 
 bot.config = config;
-bot.commands = Collection();
+bot.commands = new Collection();
 
 // reacts on event
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
-	const eventName = file.split('.')[0]
 	const event = require(`./events/${file}`);
-	bot.on(eventName, event.bind(null, bot));
+	if (event.once) {
+		if (event.once) {
+			bot.once(event.name, (...args) => event.execute(...args));
+		} else {
+			bot.on(event.name, (...args) => event.execute(...args));
+		}
+	}
 }
 
 // loads command
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-	const commandName = file.split('.')[0];
     const command = require(`./commands/${file}`);
 
     console.log(`Attempting to load command ${commandName}`)
-    bot.commands.set(commandName, command);
+    bot.commands.set(command.name, command);
 }
 
 //dynamic slash command execution
