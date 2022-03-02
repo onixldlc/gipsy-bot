@@ -33,23 +33,6 @@ for (const file of commandFiles) {
     bot.commands.set(command.name, command);
 }
 
-//dynamic slash command execution
-bot.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
-
-	const command = bot.commands.get(interaction.commandName);
-
-    // ignore if command doesnt exist
-	if (!command) return;
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-	}
-});
-
 //dynamic prefix command execution 
 bot.on('messageCreate', async msg =>{
     if (msg.author.bot) return;
