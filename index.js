@@ -1,6 +1,7 @@
 // get necessary packages
 const fs = require('node:fs');
 const { Client, Collection, Intents, Message, BitField } = require('discord.js');
+const { hotLoadCommands, hotLoadEvent } = require('./utils/loadCommand.js')
 const config = require('./config.json')
 
 // create client instance
@@ -12,24 +13,17 @@ bot.config = config;
 bot.commands = new Collection();
 
 // reacts on event
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
-for (const file of eventFiles) {
-	const event = require(`./events/${file}`);
-	if (event.once) {
-		bot.once(event.name, (ret)=>event.execute(bot, ret) );
-	} else {
-		bot.on(event.name, (ret)=>event.execute(bot, ret) );
-	}
-}
+hotLoadEvent(bot)
 
 // loads command
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+hotLoadCommands(bot)
+// const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+// for (const file of commandFiles) {
+//     const command = require(`./commands/${file}`);
 
-    console.log(`Attempting to load command ${command.name}`)
-    bot.commands.set(command.name, command);
-}
+//     console.log(`Attempting to load command ${command.name}`)
+//     bot.commands.set(command.name, command);
+// }
 
 // login to discord with bot's token
 bot.login(config.TOKEN);
