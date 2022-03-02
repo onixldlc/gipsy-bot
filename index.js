@@ -1,35 +1,32 @@
 // get necessary packages
 const fs = require('node:fs');
-const { Client, Collection, Intents, Message } = require('discord.js');
-const { TOKEN, PREFIX } = require('./config.json');
+const { Client, Collection, Intents, Message, BitField } = require('discord.js');
+const config = require('./config.json')
 
 // create client instance
 const bot = new Client({ intents : 
     [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
 });
 
+bot.config = config;
+bot.commands = Collection();
+
 // read event and event files
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
-
 for (const file of eventFiles) {
+	const eventName = file.split('.')[0]
 	const event = require(`./events/${file}`);
-	if (event.once) {
-		bot.once(event.name, (...args) => event.execute(...args));
-	} else {
-		bot.on(event.name, (...args) => event.execute(...args));
-	}
+	bot.on(eventName, event.bind(null, bot));
 }
 
 // commands collection
-bot.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
 for (const file of commandFiles) {
+	const commandName = file.split('.')[0];
     const command = require(`./commands/${file}`);
 
-    // set a new item in the Collection
-	// with the key as the command name and the value as the exported module
-    bot.commands.set(command.data.name, command);
+    console.log(`Attempting to load command ${commandName}`)
+    bot.commands.set(commandName, command);
 }
 
 //dynamic slash command execution
