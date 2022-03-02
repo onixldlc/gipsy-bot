@@ -31,7 +31,7 @@ module.exports = {
             try{
                 cmd.run(bot, message, args);
             } catch (error) {
-                conosle.error(error);
+                console.error(error);
             }
         }
     }
