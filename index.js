@@ -11,7 +11,7 @@ const bot = new Client({ intents :
 bot.config = config;
 bot.commands = Collection();
 
-// read event and event files
+// reacts on event
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
 	const eventName = file.split('.')[0]
@@ -19,7 +19,7 @@ for (const file of eventFiles) {
 	bot.on(eventName, event.bind(null, bot));
 }
 
-// commands collection
+// loads command
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
 	const commandName = file.split('.')[0];
@@ -75,4 +75,4 @@ bot.on('messageCreate', async msg =>{
 
 
 // login to discord with bot's token
-bot.login(TOKEN);
+bot.login(config.TOKEN);
