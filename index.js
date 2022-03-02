@@ -33,33 +33,5 @@ for (const file of commandFiles) {
     bot.commands.set(command.name, command);
 }
 
-//dynamic prefix command execution 
-bot.on('messageCreate', async msg =>{
-    if (msg.author.bot) return;
-	if (!msg.content.startsWith(PREFIX)) return;
-
-		// for multiline command
-	// queueCommand = msg.content.split('\n');
-	// for (cmd in queueCommand){
-	// 	msg.reply(queueCommand[cmd]);
-	// }
-
-	const args = msg.content.slice(PREFIX.length).trim().split(' ');
-	const commandName = args.shift().toLowerCase();
-	const command = bot.commands.get(commandName);
-	
-	if(!command){
-		msg.reply(`"${commandName}" is not a command`);
-		return;
-	};
-
-	try {
-		command.execute(msg, args);
-	} catch (error) {
-		console.error(error);
-	}
-});
-
-
 // login to discord with bot's token
 bot.login(config.TOKEN);
