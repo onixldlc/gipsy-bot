@@ -22,7 +22,7 @@ module.exports = {
 
         // Our standard argument/command name definition.
         const args = message.content.slice(" ").trim().split(/ +/g);
-        const commandName = args.shift().toLowerCase();
+        const commandName = args[0].replace(bot.config.PREFIX,"").toLowerCase();
 
 		console.log(commandName, args)
 
