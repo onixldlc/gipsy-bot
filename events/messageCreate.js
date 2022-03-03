@@ -16,14 +16,14 @@ function runCommand(bot, message, input){
 		return;
 	}
 
-	if(command.ownerOnly && (message.author.id != bot.config.ownerId)){
+	if (command.ownerOnly && (message.author.id != bot.config.ownerId)) {
 		message.reply('You\'re not the owner you dumdum');
 		return;
 	}
 
-	try{
+	try {
 		command.run(bot, message, args);
-	}catch (error) {
+	} catch (error) {
 		console.error(error);
 	}
 }
