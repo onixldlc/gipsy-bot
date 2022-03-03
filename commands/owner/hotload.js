@@ -1,4 +1,4 @@
-const { hotLoadCommands, hotLoadEvents } = require('../utils/loader.js')
+const { hotLoadCommands, hotLoadEvents } = require('../../utils/loader.js')
 
 module.exports = {
 	name: 'hotload',
