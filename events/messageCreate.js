@@ -7,23 +7,22 @@ function runCmdInBatch(bot, message){
 
 function runCommand(bot, message, input){
 	const args = input.slice(bot.config.PREFIX.length).trim().split(/ +/g);
-	const commandName = args.shift().toLowerCase();
+	const cmd = args.shift().toLowerCase();
 
-	const cmd = bot.commands.get(commandName);
-	const permitError = bot.commands.get("notBotCreatorPermitError");
+	const command = bot.commands.get(cmd);
 
-	if (!cmd) {
-		message.reply(`"${commandName}" is not a command`);
+	if (!command) {
+		message.reply(`"${cmd}" is not a command`);
 		return;
 	}
 
-	if(cmd.ownerOnly && (message.author.id != bot.config.ownerId)){
+	if(command.ownerOnly && (message.author.id != bot.config.ownerId)){
 		message.reply('You\'re not the owner you dumdum');
 		return;
 	}
 
 	try{
-		cmd.run(bot, message, args);
+		command.run(bot, message, args);
 	}catch (error) {
 		console.error(error);
 	}
@@ -32,11 +31,13 @@ function runCommand(bot, message, input){
 module.exports = {
 	name: 'messageCreate',
 	execute: (bot, message) => {
-		// Ignore all bots
-		if (message.author.bot) return;
-
-		// Ignore messages not starting with the prefix (in config.json)
-		if (!message.content.startsWith(bot.config.PREFIX)) return;
+		// no bots, no !guild, no !prefix
+		if (
+			message.author.bot ||
+			!message.guild ||
+			!message.content.startsWith(bot.config.PREFIX)
+		) 
+			return;
 
         // Run Command
 		runCmdInBatch(bot, message)
