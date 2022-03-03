@@ -9,28 +9,26 @@ async function hotLoadCommands (bot) {
 	const commandFiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
 	commandFiles.map((value) => {
 		delete require.cache[require.resolve(value)];
-		const file = require(value);
+		const command = require(value);
 		const splitted = value.split("/");
 		const directory = splitted[splitted.length - 2];
-
-		if (file.name) {
-			const properties = { directory, ...file };
-			bot.commands.set(file.name, properties);
-		}
+		const properties = { directory, ...command };
+		
+		bot.commands.set(command.name, properties);
 	})
 }
 
 
-function hotLoadEvents (bot) {
-	const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
-	for (const file of eventFiles) {
-		const event = require(`../events/${file}`);
+async function hotLoadEvents (bot) {
+	const eventFiles = await globPromise(`${process.cwd()}/events/*.js`);
+    eventFiles.map((value) => {
+		const event = require(value);
 		if (event.once) {
 			bot.once(event.name, (...args) => event.execute(bot, ...args));
 		} else {
 			bot.on(event.name, (...args) => event.execute(bot, ...args));
 		}
-	}
+	})
 }
 
 module.exports = { hotLoadCommands, hotLoadEvents };
