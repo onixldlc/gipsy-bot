@@ -6,7 +6,7 @@ const globPromise = promisify(glob);
 
 // set command to require its respective file recursively
 async function hotLoadCommands (bot) {
-	const commandFiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
+	const commandFiles = await (await globPromise(`${process.cwd()}/commands/**/*.js`));
 	commandFiles.map((value) => {
 		delete require.cache[require.resolve(value)];
 		const command = require(value);
@@ -18,9 +18,9 @@ async function hotLoadCommands (bot) {
 	})
 }
 
-
+// set command to requre its respective file recursively
 async function hotLoadEvents (bot) {
-	const eventFiles = await globPromise(`${process.cwd()}/events/*.js`);
+	const eventFiles = await globPromise(`${process.cwd()}/events/**/*.js`);
     eventFiles.map((value) => {
 		const event = require(value);
 		if (event.once) {
