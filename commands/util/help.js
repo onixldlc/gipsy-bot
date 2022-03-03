@@ -5,6 +5,6 @@ module.exports = {
     hidden: true,
 
 	run: (bot, message, args) => {
-        console.log('yo!');
+        message.reply('yo!!!');
 	}
 };

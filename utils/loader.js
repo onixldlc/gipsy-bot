@@ -8,6 +8,7 @@ const globPromise = promisify(glob);
 async function hotLoadCommands (bot) {
 	const commandFiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
 	commandFiles.map((value) => {
+		delete require.cache[require.resolve(value)];
 		const file = require(value);
 		const splitted = value.split("/");
 		const directory = splitted[splitted.length - 2];
