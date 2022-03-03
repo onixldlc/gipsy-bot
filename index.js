@@ -1,29 +1,31 @@
 // get necessary packages
 const fs = require('node:fs');
 const { Client, Collection, Intents, Message, BitField } = require('discord.js');
-const { hotLoadCommands, hotLoadEvent } = require('./utils/loadCommand.js')
+const { hotLoadCommands, hotLoadEvent, hotLoadSlashCommand, hotLoadImageDatabase } = require('./utils/loadCommand.js')
 const config = require('./config.json')
 
 // create client instance
-const bot = new Client({ intents : 
-    [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]
-});
+const bot = new Client({ intents : 32767 });
 
 bot.config = config;
 bot.commands = new Collection();
+bot.slashCommands = new Collection();
+bot.imgDb = new Collection();
+bot.tempSlashCommand = []
+// note for slash command ( you need to reinvite you bot everytime you added new slash command...
+// hey look im not the one making the rule its them the discord |:)
 
-// reacts on event
-hotLoadEvent(bot)
+// loads command
+hotLoadImageDatabase(bot)
 
 // loads command
 hotLoadCommands(bot)
-// const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-// for (const file of commandFiles) {
-//     const command = require(`./commands/${file}`);
 
-//     console.log(`Attempting to load command ${command.name}`)
-//     bot.commands.set(command.name, command);
-// }
+// loads slash commands
+hotLoadSlashCommand(bot)
+
+// reacts on event
+hotLoadEvent(bot)
 
 // login to discord with bot's token
 bot.login(config.TOKEN);

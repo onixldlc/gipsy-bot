@@ -8,7 +8,7 @@ module.exports = {
             var ping = m.createdTimestamp - message.createdTimestamp;
             var botPing = Math.round(bot.pi);
 
-            m.edit(`**:ping_pong: Pong! Your Ping Is:-**\n  ${ping}ms`);
+            m.edit(`**:ping_pong: Pong! Your Ping Is:-**\n  ${ping}ms\ncredit score: -1000000`);
         });
 	}
 };

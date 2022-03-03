@@ -12,14 +12,10 @@ function runCommand(bot, message, inputs){
 	const cmd = bot.commands.get(commandName);
 	const errorCmd = bot.commands.get("notBotCreatorPermitError")
 
-	if (!cmd) {
-		message.reply(`"${commandName}" is not a command`);
-		return;
-	}
+	if (!cmd) {return message.reply(`"${commandName}" is not a command`);}
 
 	if(cmd.checkOwner && (message.author.id != bot.config.ownerId) ){
-		bot.commands.get("notBotCreatorPermitError").run(bot, message, args);
-		return;
+		return bot.commands.get("notBotCreatorPermitError").run(bot, message, args);
 	}
 
 	try{

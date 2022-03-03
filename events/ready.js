@@ -1,8 +1,9 @@
 module.exports = {
 	name: 'ready',
-	once: true,
-	execute: (bot, message) => {
+	once: false,
+	execute: async (bot, message) => {
 		console.log(`Ready! Logged in as ${bot.user.tag}`);
         bot.user.setActivity(`${bot.config.PREFIX}help`, { type: 'LISTENING' });
+		await bot.application.commands.set(bot.tempSlashCommand);
 	}
 };
