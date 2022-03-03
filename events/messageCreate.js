@@ -9,7 +9,7 @@ function runCommand(bot, message, input){
 	const args = input.slice(bot.config.PREFIX.length).trim().split(/ +/g);
 	const cmd = args.shift().toLowerCase();
 
-	const command = bot.commands.get(cmd);
+	const command = bot.commands.get(cmd) || bot.commands.find(c => c.aliases?.includes(cmd.toLowerCase()));
 
 	if (!command) {
 		message.reply(`"${cmd}" is not a command`);

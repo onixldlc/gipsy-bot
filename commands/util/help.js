@@ -5,6 +5,6 @@ module.exports = {
     hidden: true,
 
 	run: (bot, message, args) => {
-        message.reply('yo!!!');
+        message.reply('help is coming but not so soon :)');
 	}
 };
