@@ -31,4 +31,29 @@ async function hotLoadEvents (bot) {
 	})
 }
 
-module.exports = { hotLoadCommands, hotLoadEvents };
+// havent tested this yet
+async function hotLoadSlashCommands (bot) {
+		const slashCommands = await globPromise(`${process.cwd()}/slashCommands/**/*.js`);
+		const arrayOfSlashCommands = [];
+		slashCommands.map((value) => {
+			const file = require(value);
+			if (!file?.name) return;
+			bot.slashCommands.set(file.name, file);
+	
+			if (["MESSAGE", "USER"].includes(file.type)) delete file.description;
+			arrayOfSlashCommands.push(file);
+		});
+
+		// there should be a better implementation
+		bot.on("ready", async () => {
+			// Register for a single guild
+			// await client.guilds.cache
+			// 	.get("guildid")
+			// 	.commands.set(arrayOfSlashCommands);
+	
+			// Register for all the guilds the bot is in
+			await bot.application.commands.set(arrayOfSlashCommands);
+		});
+}
+
+module.exports = { hotLoadCommands, hotLoadEvents, hotLoadSlashCommands };
