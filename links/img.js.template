@@ -1,5 +1,5 @@
 module.exports = {
-	name: "",
-	description: "",
-	url: ""
+	name: "template",
+	description: "template",
+	url: "template"
 };
