@@ -1,38 +1,45 @@
+function runCmdInBatch(bot, message){
+	const inputQueue = message.content.split("\n");
+	for (userCmd of inputQueue){
+		runCommand(bot, message, userCmd)
+	}
+}
+
+function runCommand(bot, message, input){
+	const args = input.slice(bot.config.PREFIX.length).trim().split(/ +/g);
+	const cmd = args.shift().toLowerCase();
+
+	const command = bot.commands.get(cmd) || bot.commands.find(c => c.aliases?.includes(cmd.toLowerCase()));
+
+	if (!command) {
+		message.reply(`"${cmd}" is not a command`);
+		return;
+	}
+
+	if (command.ownerOnly && (message.author.id != bot.config.ownerId)) {
+		message.reply('You\'re not the owner you dumdum');
+		return;
+	}
+
+	try {
+		command.run(bot, message, args);
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 module.exports = {
-    name: 'messageCreate',
-    execute(bot, message) {
-        // Ignore all bots
-        if (message.author.bot) return;
-        
-        // for multiline command
-        queueCommand = message.content.split('\n');
+	name: 'messageCreate',
+	execute: (bot, message) => {
+		// no bots, no !guild, no !prefix
+		if (
+			message.author.bot ||
+			!message.guild ||
+			!message.content.startsWith(bot.config.PREFIX)
+		) 
+			return;
 
-        // process each command
-        for (item in queueCommand){
-            request = queueCommand[item];
-
-            // ignore messages not starting with the prefix (in config.json)
-            if (!request.startsWith(bot.config.PREFIX)) continue;
-
-            // our standard argument/command name definition.
-            const args = request.slice(bot.config.PREFIX.length).trim().split(/ +/g);
-            const commandName = args.shift().toLowerCase();
-
-            // grab the command data from the client.commands 
-            const cmd = bot.commands.get(commandName);
-
-            // if that command doesn't exist, tell so and skip loop
-            if (!cmd) {
-                message.reply(`"${commandName}" is not a command`);
-                continue;
-            }
-
-            // try to run command
-            try{
-                cmd.run(bot, message, args);
-            } catch (error) {
-                conosle.error(error);
-            }
-        }
-    }
+        // Run Command
+		runCmdInBatch(bot, message)
+	}
 };
