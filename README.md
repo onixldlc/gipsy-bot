@@ -10,24 +10,24 @@ repository for my in-progress experimental gipsy-bot
   - [x] basic: ping (actual ping)
   - [x] basic: uptime
   - [ ] basic: help
-  - [ ] basic: calculator
+  - [x] basic: calculator
   - [ ] inter: debug
   - [x] inter: sysinfo
   - [x] advan: hotReload (hot reload all command so no need to restart server)
 
 - [x] add event modularity
-- [ ] add events
+- [x] add events
   - [x] ready
   - [x] messageCreate
-  - [ ] interactionCommand
+  - [x] interactionCommand
   - [ ] ...
   
-- [ ] add slashCommand modularity
-- [ ] add slashCommands
+- [x] add slashCommand modularity
+- [x] add slashCommands
   - [ ] basic: pingpong
-  - [ ] basic: ping (actuall ping)
+  - [x] basic: ping (actuall ping)
   - [ ] basic: repeat what i say
-  - [ ] inter: send image link
-  - [ ] inter: send gif link
+  - [x] inter: send image link
+  - [x] inter: send gif link
   - [ ] advan: send image file
   - [ ] inter: send gif file
