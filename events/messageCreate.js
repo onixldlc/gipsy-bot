@@ -1,7 +1,6 @@
 function runCmdInBatch(bot, message){
 	var inputQueue=message.content.split("\n");
 	for(userCmd of inputQueue){
-		console.log(userCmd)
 		runCommand(bot, message, userCmd)
 	}
 }

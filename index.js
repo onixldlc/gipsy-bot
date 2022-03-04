@@ -11,7 +11,9 @@ bot.config = config;
 bot.commands = new Collection();
 bot.slashCommands = new Collection();
 bot.imgDb = new Collection();
-bot.tempSlashCommand = []
+bot.tempSlashCommand = [];
+bot.musicQueue = [];
+bot.connection;
 // note for slash command ( you need to reinvite you bot everytime you added new slash command...
 // hey look im not the one making the rule its them the discord |:)
 
