@@ -42,9 +42,13 @@ module.exports={
 					message.channel.send("music finished")
 					console.log("The song finished");
 					console.log(newOne);
-					
+
 					bot.musicQueue.shift(1)
 					var music = bot.musicQueue[0]
+					if(!music){
+						bot.connection.unsubscribe(player);
+						return;
+					}
 					await player.play(getResource(music.url));
 				}
 			})

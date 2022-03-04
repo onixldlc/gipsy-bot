@@ -9,7 +9,11 @@ module.exports = {
 		
 	async run (bot, message, args) {
 
+		var urlRegex =  /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
 		var url = args[0].replace(/<(http.*)>/,"$1")
+
+		if(!urlRegex.test(url))return message.channel.send("you did not pay us to develop this yet... YOU FUCK !!!");
+		
 
 		const videInfo = (await ytdl.getBasicInfo(url)).videoDetails
 
