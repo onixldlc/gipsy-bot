@@ -3,6 +3,7 @@ module.exports = {
 	once: true,
 	execute: (bot, message) => {
 		console.log(`Ready! Logged in as ${bot.user.tag}`);
-        bot.user.setActivity(`${bot.config.PREFIX}help`, { type: 'LISTENING' });
+		bot.user.setActivity(`Playtesting...`);
+        //bot.user.setActivity(`${bot.config.PREFIX}help`, { type: 'LISTENING' });
 	}
 };

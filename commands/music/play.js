@@ -13,10 +13,7 @@ module.exports = {
     ownerOnly: false,
     hidden: false,
         
-    async run (bot, message, args) {
-        args[0] = args[0].substr(20);
-        message.channel.send(`success ${args[0]}`);
-        
+    async run (bot, message, args) {        
         const connection = joinVoiceChannel({
             channelId: message.member.voice.channel.id,
             guildId: message.guild.id,
@@ -31,8 +28,11 @@ module.exports = {
         const resource = createAudioResource(stream);
         
         try {
-            await player.play(resource)
-            player.on("error", error => {
+            await player
+            .play(resource)
+            
+            player
+            .on('error', error => {
                 console.log(`${error.message}`);
             });
             connection.subscribe(player);
