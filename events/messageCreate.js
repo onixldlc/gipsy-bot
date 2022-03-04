@@ -1,11 +1,13 @@
 function runCmdInBatch(bot, message){
 	var inputQueue=message.content.split("\n");
 	for(userCmd of inputQueue){
+		console.log(userCmd)
 		runCommand(bot, message, userCmd)
 	}
 }
 
 function runCommand(bot, message, inputs){
+	if (!inputs.startsWith(bot.config.PREFIX)) return;
 	const args = inputs.slice(bot.config.PREFIX.length).trim().split(/ +/g);
 	const commandName = args.shift().toLowerCase();
 
@@ -30,9 +32,6 @@ module.exports = {
 	execute: (bot, message) => {
 		// Ignore all bots
 		if (message.author.bot) return;
-
-		// Ignore messages not starting with the prefix (in config.json)
-		if (!message.content.startsWith(bot.config.PREFIX)) return;
 
 		runCmdInBatch(bot, message)
 	}

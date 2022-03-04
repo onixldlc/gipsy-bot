@@ -34,8 +34,8 @@ module.exports = {
 
 			memes.forEach((value)=>{
 				memeList.addField(
-					`**${value[1].name| "... idiot"}**`,
-					`${value[1].description | "the creator was so dumb he forgot to add this part of the thing"}`,
+					`**${value[0] || "... idiot"}**`,
+					`${value[1].description || "the creator was so dumb he forgot to add this part of the thing"}`,
 					true
 				)
 				// console.log(value[0], value[1] )
