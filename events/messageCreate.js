@@ -8,7 +8,7 @@ function runCmdInBatch(bot, message){
 
 function runCommand(bot, message, userCmd){
 	if(!userCmd.startsWith(bot.config.PREFIX)) return;
-	const args = input.slice(bot.config.PREFIX.length).trim().split(/ +/g);
+	const args = userCmd.slice(bot.config.PREFIX.length).trim().split(/ +/g);
 	const cmd = args.shift().toLowerCase();
 
 	const command = bot.commands.get(cmd) || bot.commands.find(c => c.aliases?.includes(cmd.toLowerCase()));
