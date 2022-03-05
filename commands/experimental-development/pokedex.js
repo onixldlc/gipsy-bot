@@ -8,15 +8,12 @@ module.exports = {
 	hidden: false,
 	
 	run: (bot, message, args) => {
-		if (!args) {
-			message.reply('jangan lupa args nya bwang');
+		if (args[0] === undefined) {
+			message.reply('jangan lupa nama pokemonnya nya bwang');
 			return;
 		}
 
-		if (args[0] === 'ryan'){
-			message.reply('https://tenor.com/view/among-us-twerk-thicc-among-us-twerk-funny-among-us-gif-20511920');
-			return;
-		}
+		console.log(args);
             
 		let url = `https://pokeapi.co/api/v2/pokemon/${args[0]}/`;
 		message.channel.send(url);
@@ -25,9 +22,18 @@ module.exports = {
 			.then((res) => {
 				const img = res.data.sprites.other['official-artwork'].front_default;
 				message.channel.send(img);
+				console.log('success');
 			})
 			.catch((error) => {
-				message.channel.send(error.message);
+				console.error(error.response.data);
+				console.error(error.response.status);
+				console.error(error.response.headers);
+
+				if (error.response.status == '404') {
+					message.reply(`${args[0]} is not a real pokemon you dumdum`);
+				} else {
+					message.reply('uh oh, sumting wong occured');
+				}
 			});
 	}
 };
