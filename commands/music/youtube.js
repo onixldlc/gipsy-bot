@@ -13,6 +13,11 @@ module.exports = {
 	hidden: false,
         
 	run: async (bot, message, args) => {        
+		if (!message.member.voice.channel) {
+			message.reply('you\'re not in a voice channel you dumdum');
+			return;
+		}
+
 		const connection = joinVoiceChannel({
 			channelId: message.member.voice.channel.id,
 			guildId: message.guild.id,
