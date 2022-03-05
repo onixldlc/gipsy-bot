@@ -2,7 +2,7 @@ module.exports = {
 	name: 'interactionCreate',
 	execute: async (bot, interaction) => {
 		if (interaction.isCommand()){
-			await interaction.deferReply({ ephemeral: false }).catch(() => {});
+			await interaction.deferReply().catch(() => {});
 
 			const cmd = bot.slashCommands.get(interaction.commandName);
 	
@@ -26,7 +26,7 @@ module.exports = {
 
 	
 		if (interaction.isContextMenu()){
-			await interaction.deferReply({ ephemeral: false });
+			await interaction.deferReply();
 			const command = bot.slashCommands.get(interaction.commandName);
 			if (command) command.run(bot, interaction, interaction.options);
 		}
