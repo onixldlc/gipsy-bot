@@ -7,10 +7,10 @@ module.exports = {
 	// set commands to require its respective file recursively
 	hotLoadCommands: async (bot) => {
 		const commandFiles = await globPromise(`${process.cwd()}/commands/**/*.js`);
-		commandFiles.map((value) => {
-			delete require.cache[require.resolve(value)];
-			const command = require(value);
-			const individualFolder = value.split('/');
+		commandFiles.map((dir) => {
+			delete require.cache[require.resolve(dir)];
+			const command = require(dir);
+			const individualFolder = dir.split('/');
 			const folderindex = individualFolder.length - 2;
 			const folder = individualFolder[folderindex];
 			const properties = { directory: folder, ...command };
@@ -21,8 +21,8 @@ module.exports = {
 	// set events to requre its respective file recursively
 	hotLoadEvents: async (bot) => {
 		const eventFiles = await globPromise(`${process.cwd()}/events/**/*.js`);
-		eventFiles.map((value) => {
-			const event = require(value);
+		eventFiles.map((dir) => {
+			const event = require(dir);
 			if (event.once) {
 				bot.once(event.name, (...args) => { event.execute(bot, ...args); });
 			} else {
@@ -30,18 +30,17 @@ module.exports = {
 			}
 		});
 	},
+
 	// set slash commands to require its respective file recursively
 	hotLoadSlashCommands: async (bot) => {
-		const slashCommandsFiles = await globPromise(`${process.cwd()}/slashCommands/**/*.js`);
 		const arrayOfSlashCommands = [];
-		slashCommandsFiles.map((value) => {
-			const slashCommand = require(value);
-			if (!slashCommand?.name) return;
+		const slashCommandsFiles = await globPromise(`${process.cwd()}/slashCommands/**/*.js`);
+		slashCommandsFiles.map((dir) => {
+			delete require.cache[require.resolve(dir)];
+			const slashCommand = require(dir);
+			arrayOfSlashCommands.push(JSON.stringify(slashCommand));
 			bot.slashCommands.set(slashCommand.name, slashCommand);
-			
-			// not quite understand what this does yet
-			if ([ 'MESSAGE', 'USER' ].includes(slashCommand.type)) delete slashCommand.description;
-			arrayOfSlashCommands.push(slashCommand);
 		});
+
 	}
 };
