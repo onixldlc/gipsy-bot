@@ -1,6 +1,6 @@
+// @ts-check
 const { Client, Message } = require("discord.js");
 const { OUTPUT } = require("../preexistingOutput/sysinfoOutput");
-const { sendAttachedEphemeral } = require("../utils/sendEphemeral")
 
 module.exports = {
 	name: 'sysinfo',
@@ -14,7 +14,7 @@ module.exports = {
 	 * @param {String[]} args
 	 */
 	run: (bot, message, args) => {
-		return sendAttachedEphemeral(message, "../")
-		// return message.channel.send({content: "```\n"+OUTPUT+"\n```"})
+		// return sendAttachedEphemeral(message, "./preexistingOutput/test.txt")
+		return message.channel.send({content: "```\n"+OUTPUT+"\n```"})
 	}
 };

@@ -43,7 +43,7 @@ module.exports = {
 			})
 
 			// console.log( interaction )
-			return interactionSendEmbedEphemeral(bot, interaction, [memeList]);
+			return interactionSendEmbedEphemeral(interaction, [memeList]);
 			// return interaction.followUp({ embeds: [memeList], ephemeral: true});
 		}
 

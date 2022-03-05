@@ -1,4 +1,6 @@
+// @ts-check
 const { CommandInteraction, MessageAttachment, Message, MessageEmbed} = require("discord.js");
+const { PathLike, readdirSync } = require("fs")
 
 function sendTempMessage(interaction){
 	interaction.followUp("okay")
@@ -29,15 +31,15 @@ module.exports={
 	},
 
 	/**
-	 *
 	 * @param {Message} message
 	 * @param {String} description
-	 * @param {String} fileToAttach
+	 * @param {String} path
 	 */
-	sendAttachedEphemeral:(message, fileToAttach, description)=>{
-		const attachment = new MessageAttachment(fileToAttach);
+	sendAttachedEphemeral:(message, path, description="test")=>{
+		const attachment = new MessageAttachment(path);
 		attachment.ephemeral = true
 		attachment.description = description
-		return message.channel.send(attachment)
+		console.log(attachment)
+		return message.channel.send({content:"test", files:[attachment]})
 	}
 }
