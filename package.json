@@ -7,14 +7,10 @@
         "discord.js": "^13.6.0",
         "ffmpeg-static": "^4.4.1",
         "glob": "^7.2.0",
-        "optionator": "^0.9.1",
         "tweetnacl": "^1.0.3",
-        "ytdl-core": "^4.10.1"
+        "ytdl-core": "^4.11.0"
     },
     "devDependencies": {
-        "eslint": "^8.10.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-config-google": "^0.14.0",
-        "eslint-plugin-import": "^2.25.4"
+        "eslint": "^8.10.0"
     }
 }
