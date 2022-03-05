@@ -7,9 +7,9 @@ const {
 
 
 module.exports = {
-    name: 'play',
-    aliases: ['p'],
-    description: 'play music',
+    name: 'youtube',
+    aliases: ['yt'],
+    description: 'play music from youtube',
     ownerOnly: false,
     hidden: false,
         
@@ -25,20 +25,17 @@ module.exports = {
         });
         
         const player = createAudioPlayer();
-        const resource = createAudioResource(stream);
+        const resource = createAudioResource(stream);   
         
         try {
-            await player
-            .play(resource)
+            await player.play(resource)
             
-            player
-            .on('error', error => {
+            player.on('error', error => {
                 console.log(`${error.message}`);
             });
             connection.subscribe(player);
         } catch (error) {
             console.log(error);
-        }
-        
+        }   
     }
 };

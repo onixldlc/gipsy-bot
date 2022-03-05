@@ -16,7 +16,7 @@ function runCommand(bot, message, input){
 		return;
 	}
 
-	if (command.ownerOnly && (message.author.id != bot.config.ownerId)) {
+	if (command.ownerOnly && (message.author.id != bot.config.OWNERID)) {
 		message.reply('You\'re not the owner you dumdum');
 		return;
 	}
