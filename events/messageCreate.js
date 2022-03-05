@@ -1,11 +1,13 @@
 function runCmdInBatch(bot, message){
 	const inputQueue = message.content.split("\n");
 	for (userCmd of inputQueue){
-		runCommand(bot, message, userCmd)
+		console.log(userCmd);
+		runCommand(bot, message, userCmd);
 	}
 }
 
 function runCommand(bot, message, input){
+	if(!userCmd.startsWith(bot.config.PREFIX)) return;
 	const args = input.slice(bot.config.PREFIX.length).trim().split(/ +/g);
 	const cmd = args.shift().toLowerCase();
 
@@ -34,8 +36,7 @@ module.exports = {
 		// no bots, no !guild, no !prefix
 		if (
 			message.author.bot ||
-			!message.guild ||
-			!message.content.startsWith(bot.config.PREFIX)
+			!message.guild
 		) 
 			return;
 
