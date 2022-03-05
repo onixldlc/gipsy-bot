@@ -1,17 +1,35 @@
+module.exports = {
+	name: 'messageCreate',
+	execute: (bot, message) => {
+		// no bots, must be in guild
+		if (
+			message.author.bot ||
+			!message.guild
+		) 
+			return;
+
+		// run Command
+		runCmdInBatch(bot, message);
+	}
+};
+
 function runCmdInBatch(bot, message){
-	const inputQueue = message.content.split("\n");
-	for (userCmd of inputQueue){
-		console.log(userCmd);
-		runCommand(bot, message, userCmd);
+	const inputQueue = message.content.split('\n');
+	for (let input of inputQueue){
+		runCommand(bot, message, input);
 	}
 }
 
 function runCommand(bot, message, userCmd){
-	if(!userCmd.startsWith(bot.config.PREFIX)) return;
+	if (!userCmd.startsWith(bot.config.PREFIX)) return;
 	const args = userCmd.slice(bot.config.PREFIX.length).trim().split(/ +/g);
 	const cmd = args.shift().toLowerCase();
 
-	const command = bot.commands.get(cmd) || bot.commands.find(c => c.aliases?.includes(cmd.toLowerCase()));
+	const command = 
+		bot.commands.get(cmd) || 
+		bot.commands.find((c) => {
+			return (c.aliases && c.aliases.includes(cmd.toLowerCase()));
+		});
 
 	if (!command) {
 		message.reply(`"${cmd}" is not a command`);
@@ -29,18 +47,3 @@ function runCommand(bot, message, userCmd){
 		console.error(error);
 	}
 }
-
-module.exports = {
-	name: 'messageCreate',
-	execute: (bot, message) => {
-		// no bots, no !guild, no !prefix
-		if (
-			message.author.bot ||
-			!message.guild
-		) 
-			return;
-
-        // Run Command
-		runCmdInBatch(bot, message)
-	}
-};

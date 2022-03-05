@@ -2,9 +2,9 @@ module.exports = {
 	name: 'ping',
 	description: 'checks Bot and API ping',
 	ownerOnly: false,
-    hidden: true,
+	hidden: true,
 	
-	run: (bot, message, args) => {
+	run: (bot, message) => {
 		const botp = Date.now() - message.createdTimestamp;
 		const APIp = bot.ws.ping;
 		message.channel.send(`\`\`\`Bot latency: ${botp}ms, API latency: ${APIp}ms\`\`\``);
