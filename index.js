@@ -7,8 +7,12 @@ const config = require('./config.json');
 const bot = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES ] });
 
 bot.config = config;
+bot.voiceConnection;
+
 bot.commands = new Collection();
 bot.slashCommands = new Collection();
+
+bot.musicQueue = [];
 
 // reacts on event
 hotLoadEvents(bot);

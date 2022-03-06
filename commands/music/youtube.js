@@ -1,9 +1,5 @@
 const ytdl = require('ytdl-core');
-const { 
-	joinVoiceChannel,
-	createAudioPlayer,
-	createAudioResource
-} = require('@discordjs/voice');
+const { connectVoice, musicStart } = require('../../utils/playMusic');
 
 module.exports = {
 	name: 'youtube',
@@ -18,33 +14,18 @@ module.exports = {
 			return;
 		}
 
-		const connection = joinVoiceChannel({
-			channelId: message.member.voice.channel.id,
-			guildId: message.guild.id,
-			adapterCreator: message.guild.voiceAdapterCreator
-		});
-		
-		const stream = ytdl(args[0], {
-			filter: 'audioonly'
-		});
-        
-		const player = createAudioPlayer();
-		const resource = createAudioResource(stream);   
-        
-		// refactor these please
-		try {
-			await player.play(resource);
-			player.on('error', (error) => {
-				console.log(`${error.message}`);
-			});
-			connection.subscribe(player);
-		} catch (error) {
-			console.error(error);
-		}   
+		const videoInfo = (await ytdl.getBasicInfo(args[0])).videoDetails;
+		const music = {
+			title: videoInfo.title,
+			duration: videoInfo.lengthSeconds,
+			url: videoInfo.video_url
+		};
+
+		bot.musicQueue.push(music);
+		console.log('music queue :\n', bot.musicQueue);
+
+		if (!bot.voiceConnection) {
+			connectVoice(bot, message).then(musicStart(bot, message));
+		}
 	}
 };
-
-/**
- * Known Issues :
- * bot crashes if member is not in voice channel
- */
