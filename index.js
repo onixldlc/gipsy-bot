@@ -1,7 +1,7 @@
 // get necessary packages
 const fs = require('node:fs');
 const { Client, Collection, Intents, Message, BitField } = require('discord.js');
-const { hotLoadCommands, hotLoadEvent, hotLoadSlashCommand, hotLoadImageDatabase } = require('./utils/loadCommand.js')
+const { hotLoadCommands, hotLoadEvent, hotLoadSlashCommand, hotLoadImageDatabase, hotLoadPlaylist } = require('./utils/loadCommand.js')
 const config = require('./config.json')
 
 // create client instance
@@ -11,11 +11,15 @@ bot.config = config;
 bot.commands = new Collection();
 bot.slashCommands = new Collection();
 bot.imgDb = new Collection();
+bot.localPlaylist = new Collection();
 bot.tempSlashCommand = [];
 bot.musicQueue = [];
 bot.connection;
 // note for slash command ( you need to reinvite you bot everytime you added new slash command...
 // hey look im not the one making the rule its them the discord |:)
+
+// loads local curated playlist
+hotLoadPlaylist(bot)
 
 // loads command
 hotLoadImageDatabase(bot)

@@ -1,7 +1,15 @@
-const fs = require('node:fs');
+const { readdirSync, readFileSync } = require('node:fs');
+const { convertSecToDate } = require("./timeHandler")
+
+function getTotalLength(json){
+	var totalLength = 0;
+	json.forEach((value)=>{totalLength+=value.len})
+	return totalLength;
+}
+
 module.exports={
 	hotLoadCommands:(bot)=>{
-		const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+		const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
 		for (const file of commandFiles) {
 			delete require.cache[require.resolve(`../commands/${file}`)];
 			const command = require(`../commands/${file}`);
@@ -9,7 +17,7 @@ module.exports={
 		}
 	},
 	hotLoadEvent:(bot)=>{
-		const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
+		const eventFiles = readdirSync('./events').filter(file => file.endsWith('.js'));
 		for (const file of eventFiles) {
 			const event = require(`../events/${file}`);
 			if (event.once) {
@@ -20,7 +28,7 @@ module.exports={
 		}
 	},
 	hotLoadSlashCommand:(bot)=>{
-		const slashCommandFiles = fs.readdirSync('./slashCommand').filter(file => file.endsWith('.js'));
+		const slashCommandFiles = readdirSync('./slashCommand').filter(file => file.endsWith('.js'));
 		bot.tempSlashCommand = []
 		for (const file of slashCommandFiles) {
 			delete require.cache[require.resolve(`../slashCommand/${file}`)];
@@ -32,11 +40,23 @@ module.exports={
 		}
 	},
 	hotLoadImageDatabase:(bot)=>{
-		const imgLinkFiles = fs.readdirSync('./links').filter(file => file.endsWith('.js'));
+		const imgLinkFiles = readdirSync('./links').filter(file => file.endsWith('.js'));
 		for (const file of imgLinkFiles) {
 			delete require.cache[require.resolve(`../links/${file}`)];
 			const img = require(`../links/${file}`);
 			bot.imgDb.set(img.name, img)
+		}
+	},
+	hotLoadPlaylist:(bot)=>{
+		const playlistList = readdirSync('./playlist').filter(file => file.endsWith('.json'));
+		for( const file of playlistList ){
+			var tempPlaylist = {
+				name:`${file.replace("\.json","")}`,
+				duration: "",
+				playlist: JSON.parse(readFileSync(`./playlist/${file}`))
+			}
+			tempPlaylist.duration = convertSecToDate(getTotalLength(tempPlaylist.playlist))
+			bot.localPlaylist.set(tempPlaylist.name, tempPlaylist)
 		}
 	}
 }

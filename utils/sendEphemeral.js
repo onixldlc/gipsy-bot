@@ -1,6 +1,5 @@
 // @ts-check
 const { CommandInteraction, MessageAttachment, Message, MessageEmbed} = require("discord.js");
-const { PathLike, readdirSync } = require("fs")
 
 function sendTempMessage(interaction){
 	interaction.followUp("okay")

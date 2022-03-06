@@ -1,4 +1,4 @@
-const { convertSecToDate } = require("../utils/timeHandler")
+const { convertMiliSecToDate } = require("../utils/timeHandler")
 module.exports = {
 	name: 'uptime',
 	description: 'check for bots uptime',
@@ -6,6 +6,6 @@ module.exports = {
 	checkOwner: false,
 	run: (bot, message, args) => {
 		var timeInMilSec = bot.uptime
-		message.channel.send(`\`\`\`\n ${convertSecToDate(timeInMilSec)} \n\`\`\``)
+		message.channel.send(`\`\`\`\n ${convertMiliSecToDate(timeInMilSec)} \n\`\`\``)
 	}
 };
