@@ -5,6 +5,8 @@ const {
 	createAudioResource
 } = require('@discordjs/voice');
 
+// only support youtube for now
+
 module.exports={
 	connectVoice: async (bot, message) => {
 		bot.voiceConnection = await joinVoiceChannel({
@@ -18,31 +20,39 @@ module.exports={
 		const player = createAudioPlayer();
 
 		try {
-			var music = bot.musicQueue[0];
+			// bisa refactor jadi shift() kalo queue.js ga butuh kaya gini.
+			let music = bot.musicQueue[0];
 			await player.play(getResource(music.url));
 
-			player.on('error', (error) => {
-				message.channel.send('something went wrong!');
-				console.error(error.message);
-			});
+			player
+				.on('error', (error) => {
+					message.channel.send('something went wrong!');
+					console.error(error);
+				})
+				.on('')
+				.addListener('stateChange', async (oldOne, newOne) => {
+					if (newOne.status == 'idle') {
+						message.channel.send('music finished');
+						console.log('The song finished');
+						console.log(`old status: ${oldOne.status}`);
+						console.log(`new status: ${newOne.status}`);
 
-			player.addListener('stateChange', async (oldOne, newOne) => {
-				if (newOne.status == 'idle') {
-					message.channel.send('music finished');
-					console.log('The song finished');
-					console.log(oldOne);
-					console.log(newOne);
+						
+						bot.musicQueue.shift();
+						music = bot.musicQueue[0];
 
-					bot.musicQueue.shift();
-					var music = bot.musicQueue[0];
-					await player.play(getResource(music.url));
-				}
-			});
-
+						if (!music) {
+							bot.voiceConnection.unsubscribe(player);
+							return;
+						}
+						await player.play(getResource(music.url));
+					}
+				});
+				
 			bot.voiceConnection.subscribe(player);
 
 		} catch (error) {
-			message.channel.send('something went wrong!');
+			message.channel.send('something went wrong!2');
 			console.error(error);
 		}
 	}
@@ -55,3 +65,9 @@ function getResource(url){
 	const resource = createAudioResource(stream);
 	return resource;
 }
+
+
+/**
+ * TO DO :
+ * empty queue when bot disconnect -> once?
+ */
