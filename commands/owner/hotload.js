@@ -1,13 +1,14 @@
-const { hotLoadCommands, hotLoadEvents } = require('../../utils/loader.js')
+const { hotLoadCommands, hotLoadSlashCommands} = require('../../utils/loader.js');
 
 module.exports = {
 	name: 'hotload',
 	description: 'hotload command on the run',
-    ownerOnly: true,
-    hidden: true,
+	ownerOnly: true,
+	hidden: true,
     
-	run: (bot, message, args) => {
+	run: (bot, message) => {
 		hotLoadCommands(bot);
-		message.channel.send("commands has been reloaded");
+		hotLoadSlashCommands(bot);
+		message.channel.send('commands has been reloaded');
 	}
-}
+};

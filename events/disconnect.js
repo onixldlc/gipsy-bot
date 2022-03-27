@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'disconnect',
-	execute: (bot, message) => {
-		console.log(`Disconnect!`);
+	execute: () => {
+		console.log('Disconnect!');
 	}
 };

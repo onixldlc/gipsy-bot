@@ -1,22 +1,42 @@
+module.exports = {
+	name: 'messageCreate',
+	execute: (bot, message) => {
+		// no bots, must be in guild
+		if (
+			message.author.bot ||
+			!message.guild
+		) 
+			return;
+
+		// run Command
+		runCmdInBatch(bot, message);
+	}
+};
+
 function runCmdInBatch(bot, message){
-	const inputQueue = message.content.split("\n");
-	for (userCmd of inputQueue){
-		runCommand(bot, message, userCmd)
+	const inputQueue = message.content.split('\n');
+	for (let input of inputQueue){
+		runCommand(bot, message, input);
 	}
 }
 
-function runCommand(bot, message, input){
-	const args = input.slice(bot.config.PREFIX.length).trim().split(/ +/g);
+function runCommand(bot, message, userCmd){
+	if (!userCmd.startsWith(bot.config.PREFIX)) return;
+	const args = userCmd.slice(bot.config.PREFIX.length).trim().split(/ +/g);
 	const cmd = args.shift().toLowerCase();
 
-	const command = bot.commands.get(cmd) || bot.commands.find(c => c.aliases?.includes(cmd.toLowerCase()));
+	const command = 
+		bot.commands.get(cmd) || 
+		bot.commands.find((c) => {
+			return (c.aliases && c.aliases.includes(cmd.toLowerCase()));
+		});
 
 	if (!command) {
 		message.reply(`"${cmd}" is not a command`);
 		return;
 	}
 
-	if (command.ownerOnly && (message.author.id != bot.config.ownerId)) {
+	if (command.ownerOnly && (message.author.id != bot.config.OWNERID)) {
 		message.reply('You\'re not the owner you dumdum');
 		return;
 	}
@@ -27,19 +47,3 @@ function runCommand(bot, message, input){
 		console.error(error);
 	}
 }
-
-module.exports = {
-	name: 'messageCreate',
-	execute: (bot, message) => {
-		// no bots, no !guild, no !prefix
-		if (
-			message.author.bot ||
-			!message.guild ||
-			!message.content.startsWith(bot.config.PREFIX)
-		) 
-			return;
-
-        // Run Command
-		runCmdInBatch(bot, message)
-	}
-};
