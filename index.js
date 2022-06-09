@@ -1,5 +1,4 @@
 // get necessary packages
-const fs = require('node:fs');
 const { Client, Collection, Intents, Message, BitField } = require('discord.js');
 const { hotLoadCommands, hotLoadEvent, hotLoadSlashCommand, hotLoadImageDatabase, hotLoadPlaylist } = require('./utils/loadCommand.js')
 const config = require('./config.json')

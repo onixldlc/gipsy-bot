@@ -1,6 +1,12 @@
 // @ts-check
 const { Client, Message } = require("discord.js");
-const { OUTPUT } = require("../preexistingOutput/sysinfoOutput");
+try{
+	const { OUTPUT } = require("../preexistingOutput/sysinfoOutput");
+}
+catch(err){
+	const OUTPUT = "null (you have not created file for this command)";
+}
+
 
 module.exports = {
 	name: 'sysinfo',
