@@ -1,4 +1,5 @@
 {
     "TOKEN": "insert bot token here",
-    "PREFIX": "insert bot prefix here"
+    "PREFIX": "insert bot prefix here",
+    "OWNERSID": ["owner1's Id", "owner2's Id"]
 }
