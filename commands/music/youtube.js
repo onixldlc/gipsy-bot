@@ -22,7 +22,7 @@ module.exports = {
 		};
 
 		bot.musicQueue.push(music);
-		console.log('music queue :\n', bot.musicQueue);
+		// console.log('music queue :\n', bot.musicQueue);
 
 		if (!bot.voiceConnection) {
 			connectVoice(bot, message).then(musicStart(bot, message));
