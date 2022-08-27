@@ -33,10 +33,6 @@ module.exports={
 				.addListener('stateChange', async (oldOne, newOne) => {
 					if (newOne.status == 'idle') {
 						message.channel.send('music finished');
-						// console.log('The song finished');
-						// console.log(`old status: ${oldOne.status}`);
-						// console.log(`new status: ${newOne.status}`);
-
 						bot.musicQueue.shift();
 						music = bot.musicQueue[0];
 
@@ -59,7 +55,6 @@ module.exports={
 };
 
 function getResource(music){
-	console.log(`music\n ${music}`);
 	const stream = ytdl(music, {
 		filter: 'audioonly'
 	});
