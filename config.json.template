@@ -1,7 +1,13 @@
 {
+<<<<<<< HEAD
     "TOKEN": "",
     "PREFIX": "",
     "OWNERSID": [],
     "SPOTIFY_ID": "",
     "SPOTIFY_SECRET": ""
+=======
+  "TOKEN": "",
+  "PREFIX": "",
+  "OWNERSID": []
+>>>>>>> 617938c (added templating file)
 }
