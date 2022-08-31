@@ -36,7 +36,7 @@ function runCommand(bot, message, userCmd){
 		return;
 	}
 
-	if (command.ownerOnly && !isOwner(message.author.id, bot.config.OWNERSID)) {
+	if (command.ownerOnly && (message.author.id != bot.config.OWNERID)) {
 		message.reply('You\'re not the owner you dumdum');
 		return;
 	}
@@ -46,12 +46,4 @@ function runCommand(bot, message, userCmd){
 	} catch (error) {
 		console.error(error);
 	}
-}
-
-function isOwner(authorId, ownersId) {
-	for (const ownerId of ownersId) {
-		if (authorId == ownerId) 
-			return true;
-	}
-	return false;
 }

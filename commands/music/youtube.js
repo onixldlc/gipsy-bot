@@ -22,9 +22,7 @@ module.exports = {
 		};
 
 		bot.musicQueue.push(music);
-		// for (const music of bot.musicQueue) {
-		// 	console.log(music);
-		// }
+		console.log('music queue :\n', bot.musicQueue);
 
 		if (!bot.voiceConnection) {
 			connectVoice(bot, message).then(musicStart(bot, message));

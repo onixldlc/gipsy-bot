@@ -27,17 +27,22 @@ module.exports={
 			player
 				.on('error', (error) => {
 					message.channel.send('something went wrong!');
-					console.log('error1: ');
 					console.error(error);
 				})
+				.on('')
 				.addListener('stateChange', async (oldOne, newOne) => {
 					if (newOne.status == 'idle') {
 						message.channel.send('music finished');
+						console.log('The song finished');
+						console.log(`old status: ${oldOne.status}`);
+						console.log(`new status: ${newOne.status}`);
+
+						
 						bot.musicQueue.shift();
 						music = bot.musicQueue[0];
 
 						if (!music) {
-							bot.voiceConnection.destroy();
+							bot.voiceConnection.unsubscribe(player);
 							return;
 						}
 						await player.play(getResource(music.url));
@@ -47,15 +52,14 @@ module.exports={
 			bot.voiceConnection.subscribe(player);
 
 		} catch (error) {
-			message.channel.send('something went wrong!');
-			console.log('error2: ');
+			message.channel.send('something went wrong!2');
 			console.error(error);
 		}
 	}
 };
 
-function getResource(music){
-	const stream = ytdl(music, {
+function getResource(url){
+	const stream = ytdl(url, {
 		filter: 'audioonly'
 	});
 	const resource = createAudioResource(stream);

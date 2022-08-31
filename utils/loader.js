@@ -18,7 +18,6 @@ module.exports = {
 			bot.commands.set(command.name, properties);
 		});
 	},
-
 	// set events to requre its respective file recursively
 	hotLoadEvents: async (bot) => {
 		const eventFiles = await globPromise(`${process.cwd()}/events/**/*.js`);
@@ -42,5 +41,6 @@ module.exports = {
 			arrayOfSlashCommands.push(JSON.stringify(slashCommand));
 			bot.slashCommands.set(slashCommand.name, slashCommand);
 		});
+
 	}
 };
